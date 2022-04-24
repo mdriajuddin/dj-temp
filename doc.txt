@@ -1,0 +1,26 @@
+pre command
+#docker-compose run web django-admin startproject mainproject .
+
+
+Run this command for spacific version
+docker-compose exec web pip freeze > requirements.txt
+
+
+to create app
+docker-compose exec web python manage.py startapp <app_name>
+
+to start
+docker-compose up -d --build
+
+
+
+
+
+installed package
+
+Django
+djangorestframework
+django-cors-headers
+psycopg2
+django-allauth
+dj-rest-auth
