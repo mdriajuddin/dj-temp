@@ -47,24 +47,6 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 
-# for rest_framework
-
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny'
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-    )
-}
-
-REST_USE_JWT = True
-JWT_AUTH_COOKIE = 'mainapp-app-auth'
-JWT_AUTH_REFRESH_COOKIE = 'mainapp-refresh-token'
-
 
 
 
@@ -82,10 +64,7 @@ MIDDLEWARE = [
 ]
 
 
-CORS_ALLOWED_ORIGINS = [    
-    
-    "http://localhost:3000",
-]
+
 
 ROOT_URLCONF = 'mainapp.urls'
 
@@ -180,3 +159,52 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'drones.custompagination.LimitOffsetPaginationWithUpperBound',
+    'PAGE_SIZE': 4,
+
+    'DEFAULT_FILTER_BACKENDS': (
+                                'django_filters.rest_framework.DjangoFilterBackend',
+                                'rest_framework.filters.OrderingFilter',
+                                'rest_framework.filters.SearchFilter',
+                                ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    ),
+   'DEFAULT_PERMISSION_CLASSES': [
+   'rest_framework.permissions.AllowAny',
+    ],
+
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '300/day',
+        'user': '10000/day',
+    },
+    'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.NamespaceVersioning',
+
+
+
+}
+
+
+
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'mainapp-app-auth'
+JWT_AUTH_REFRESH_COOKIE = 'mainapp-refresh-token'
+
+
+
+
+
+CORS_ALLOWED_ORIGINS = [    
+    
+    "http://localhost:3000",
+]
